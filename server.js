@@ -1,3 +1,12 @@
+// In this branch we will be making use of express routers, basically express routers
+// help us create seperate APIs in our aplication which will take care of seperate 
+// business logic (in our case we will have separate routes for friends and messages)
+
+// Routers comment: WILL START LIKE THIS !!
+
+// More info can be found in the docs as Routers is also a middleware
+// From google search: https://expressjs.com/en/guide/using-middleware.html
+
 const express = require("express")
 
 const friendsController = require('./controllers/friends.controller')
@@ -32,21 +41,42 @@ app.get('/', (req, res) => {
     res.send('Hello there')
 })
 
-app.get('/friends', friendsController.getFriends)
+// Routers Comment: Instead of using app.get we will be using our customer routers name 
+// and get as this will help us seperate the business logic. NOTE at the end we have 
+// to call app.use and give the name of our router. More on that while defining the router
+
+const friendsRouter = express.Router()
+
+
+//app.get('/friends', friendsController.getFriends)
+friendsRouter.get('/', friendsController.getFriends)
 
 // How do we handle parameters with the link 
 // You can get more details in this link: https://expressjs.com/en/guide/routing.html
-app.get('/friends/:value', friendsController.getFriendById)
 
-// Ok here we will set the POST function... that is if the user is posting something.
-// either this can be from a from fetch fucntion from the clinet or end can be done using 
-// postman.
+//app.get('/friends/:value', friendsController.getFriendById)
+friendsRouter.get('/:value', friendsController.getFriendById)
 
-app.post('/friends', friendsController.addNewFriend)
 
-app.get('/message', messageController.getMessage)
+//app.post('/friends', friendsController.addNewFriend)
+friendsRouter.post('/', friendsController.addNewFriend)
 
-app.post('/message', messageController.postMessage)
+// Routers Comment: You can see from above the changes that have been made. 
+// Two options to define the middleware
+
+// app.use(friendsRouter) This is if you keep the base url of friends 
+app.use('/friends', friendsRouter)
+
+
+// Routers Comment: Repeating the same for messages route but keeping the base url
+
+const messagesRouter = express.Router()
+
+messagesRouter.get('/message', messageController.getMessage)
+
+messagesRouter.post('/message', messageController.postMessage)
+
+app.use(messagesRouter)
 
 app.listen(3000, () => {
     console.log("server is running at local host 3000")
