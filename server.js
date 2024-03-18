@@ -9,8 +9,8 @@
 
 const express = require("express")
 
-const friendsController = require('./controllers/friends.controller')
-const messageController = require('./controllers/message.controller')
+const friendsRouters = require('./routers/friends.routers')
+const messagesRouters = require('./routers/messages.routers')
 
 const app = express()
 
@@ -21,7 +21,7 @@ const app = express()
 app.use(express.json());
 
 app.use((req,res,next) => {
-    console.log(`${req.method} ${req.url}`)
+    console.log(`${req.method}${req.baseUrl} ${req.url}`)
     const start = new Date()
     
     // If you don't add this the front end will keep waiting for the response as we don't move 
@@ -41,42 +41,10 @@ app.get('/', (req, res) => {
     res.send('Hello there')
 })
 
-// Routers Comment: Instead of using app.get we will be using our customer routers name 
-// and get as this will help us seperate the business logic. NOTE at the end we have 
-// to call app.use and give the name of our router. More on that while defining the router
-
-const friendsRouter = express.Router()
-
-
-//app.get('/friends', friendsController.getFriends)
-friendsRouter.get('/', friendsController.getFriends)
-
-// How do we handle parameters with the link 
-// You can get more details in this link: https://expressjs.com/en/guide/routing.html
-
-//app.get('/friends/:value', friendsController.getFriendById)
-friendsRouter.get('/:value', friendsController.getFriendById)
-
-
-//app.post('/friends', friendsController.addNewFriend)
-friendsRouter.post('/', friendsController.addNewFriend)
-
-// Routers Comment: You can see from above the changes that have been made. 
-// Two options to define the middleware
-
 // app.use(friendsRouter) This is if you keep the base url of friends 
-app.use('/friends', friendsRouter)
+app.use('/friends', friendsRouters.friendsRouter)
 
-
-// Routers Comment: Repeating the same for messages route but keeping the base url
-
-const messagesRouter = express.Router()
-
-messagesRouter.get('/message', messageController.getMessage)
-
-messagesRouter.post('/message', messageController.postMessage)
-
-app.use(messagesRouter)
+app.use(messagesRouters.messagesRouter)
 
 app.listen(3000, () => {
     console.log("server is running at local host 3000")
