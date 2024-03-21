@@ -1,6 +1,15 @@
-// Here we will be sending static webpages and for this there are a few things.
-// First of all to send them we will use a middleware which allow us to send static
-// web pages. and in that we will define the folder that we want to send. 
+// Here we will be making use of templating engine and for that we will move the html
+// file from the public folder location and we will be using handle bars to define 
+// a new kind of a html using handle bars which will dynamically have the contents 
+// of the page ready before being sent to the clinet with the right data. 
+
+// For the fist of all we will have to npm install the templating engine that we want 
+// Followed by that we will sent the rule of the app to set the type of templating engine
+// that we are making use of. 
+// Once that is done we then use the render method to render a specific handle bar file 
+// once an end point is hit. 
+
+// so the render functions will be in the get messges part and the root path. 
 
 const express = require("express")
 const path = require("path")
@@ -9,14 +18,24 @@ const friendsRouters = require('./routers/friends.routers')
 const messagesRouters = require('./routers/messages.routers')
 
 const app = express()
+// const hbs = require('hbs')
 
-// This a middleware which we are using ... since the data that we get from the 
-// web or client in the post request is json (that is when the client post/sends us data)
-// we cannot read this in JS so we have to convert to JS and having this middleware 
-// will do it without us having to convert the data into js 
+
 app.use(express.json());
 
-// !!!!!! HERE IS THE CHANGE !!!!!!!
+// HERE WE are setting the app property to make use handlebars templating engine 
+// More info here https://www.geeksforgeeks.org/handlebars-templating-in-expressjs/
+app.set('view engine', 'hbs')
+app.set('views', path.join(__dirname, 'render'), )
+app.get('/', (req,res) => {
+    res.render('index', {
+        title: "Hello Adnan",
+        heading: "Yes !!!"
+    })
+})
+
+// If you are using this in that case you will have to edit the file location in 
+// in the handle bar 
 app.use('/site', express.static(path.join(__dirname, 'public')))
 
 app.use((req,res,next) => {
