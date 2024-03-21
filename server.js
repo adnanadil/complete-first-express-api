@@ -11,6 +11,9 @@
 
 // so the render functions will be in the get messges part and the root path. 
 
+// IN THE FINAL BRANCH WE WILL: We will have a basic index.hbs file and we will hit the
+// other files based on the type of render call... it's name is layout
+
 const express = require("express")
 const path = require("path")
 

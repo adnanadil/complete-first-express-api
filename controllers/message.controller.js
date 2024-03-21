@@ -4,7 +4,7 @@ function getMessage (req,res) {
     const location = path.join(__dirname, '..' , 'public', 'asserts', 'skimountain.jpg')
     // res.send('<ul><li>Message list</li></ul>')
     // res.sendFile(location)
-    res.render('index', {
+    res.render('message', {
         title: "Messages",
         heading: "Buzz man"
     })
