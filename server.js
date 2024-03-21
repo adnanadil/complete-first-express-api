@@ -1,11 +1,9 @@
-// I will be sending a image and for this we will
-// Make us of the res.sendFile 
-// To use a well defined path we will use the path function of express and 
-// the use join to and learn about __dirname
-
-// Have a look at the messages controller get function
+// Here we will be sending static webpages and for this there are a few things.
+// First of all to send them we will use a middleware which allow us to send static
+// web pages. and in that we will define the folder that we want to send. 
 
 const express = require("express")
+const path = require("path")
 
 const friendsRouters = require('./routers/friends.routers')
 const messagesRouters = require('./routers/messages.routers')
@@ -17,6 +15,9 @@ const app = express()
 // we cannot read this in JS so we have to convert to JS and having this middleware 
 // will do it without us having to convert the data into js 
 app.use(express.json());
+
+// !!!!!! HERE IS THE CHANGE !!!!!!!
+app.use('/site', express.static(path.join(__dirname, 'public')))
 
 app.use((req,res,next) => {
     console.log(`${req.method}${req.baseUrl} ${req.url}`)
