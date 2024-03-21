@@ -1,11 +1,9 @@
-// In this branch we will be making use of express routers, basically express routers
-// help us create seperate APIs in our aplication which will take care of seperate 
-// business logic (in our case we will have separate routes for friends and messages)
+// I will be sending a image and for this we will
+// Make us of the res.sendFile 
+// To use a well defined path we will use the path function of express and 
+// the use join to and learn about __dirname
 
-// Routers comment: WILL START LIKE THIS !!
-
-// More info can be found in the docs as Routers is also a middleware
-// From google search: https://expressjs.com/en/guide/using-middleware.html
+// Have a look at the messages controller get function
 
 const express = require("express")
 
